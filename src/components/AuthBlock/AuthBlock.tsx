@@ -80,7 +80,7 @@ export const AuthBlock = () => {
                 size="small"
                 onChange={handleRememberChange}
                 sx={{
-                  color: "#e5e5e5",
+                  color: "#999",
                   "&.Mui-checked": { color: "blue" },
                 }}
               />

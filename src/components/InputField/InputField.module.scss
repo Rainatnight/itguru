@@ -1,8 +1,10 @@
+@import "../../styles/colors.scss";
+
 .inputWrap {
   display: flex;
   flex-direction: column;
   width: 100%;
-  background: white;
+  background: $main;
 }
 
 .labelErrorRow {
@@ -26,7 +28,7 @@
   position: absolute;
   left: 10px;
   font-size: 20px;
-  color: #e4dede;
+  color: $secondary;
   pointer-events: none;
 }
 
@@ -35,23 +37,24 @@
   padding: 12px 12px 12px 40px;
   box-sizing: border-box;
 
-  background-color: #fff;
+  background-color: $main;
   color: #000;
-  border: 1px solid #e4dede;
+  border: 1px solid $secondary;
   border-radius: 4px;
   font-size: 16px;
+
   &:focus {
     outline: none;
-    border: 1px solid #ccc;
+    border: 1px solid $secondary;
   }
 }
 
 .rightIcon {
   position: absolute;
   right: 12px;
-  color: gray;
   cursor: pointer;
 }
+
 .error {
   color: red;
   font-size: 12px;

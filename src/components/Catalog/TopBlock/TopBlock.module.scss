@@ -4,19 +4,27 @@
   background: #ffffff;
   border-radius: 12px;
   padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: auto 5fr 1fr;
+  align-items: center;
+  gap: 32px;
   box-sizing: border-box;
-  border: 1px solid red;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: flex-start;
 }
 
 .title {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 .input {
+  width: 80%;
   height: 44px;
   padding: 0 14px;
   border-radius: 8px;
@@ -35,16 +43,22 @@
     box-shadow: 0 0 0 2px rgba(47, 128, 237, 0.15);
   }
 }
+.right {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
 
 .divider {
-  height: 1px;
+  width: 1px;
   background: #ddd;
-  width: 100%;
-  margin: 8px 0;
+  height: 40px;
+  flex-shrink: 0;
 }
 
 .icons {
   display: flex;
   gap: 16px;
   color: #555;
+  align-items: center;
 }

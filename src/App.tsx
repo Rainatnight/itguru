@@ -1,7 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import AuthPage from "./pages/auth";
-import "./App.css";
+
 import CatalogPage from "./pages/catalog";
+import "./App.css";
 
 function App() {
   return (

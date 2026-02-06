@@ -27,7 +27,7 @@ export const Products = () => {
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.products);
-        setTotalProducts(data.total); // total — общее количество товаров на сервере
+        setTotalProducts(data.total);
         setLoading(false);
       })
       .catch((err) => {
@@ -51,7 +51,7 @@ export const Products = () => {
         <div className={styles.cell}>Вендор</div>
         <div className={styles.cell}>Артикул</div>
         <div className={styles.cell}>Оценка</div>
-        <div className={styles.cell}>Цена</div>
+        <div className={styles.cell}>Цена, ₽</div>
         <div className={styles.cell}>Количество</div>
         <div className={`${styles.cell} ${styles.actions}`}>Действия</div>
       </div>
@@ -61,16 +61,23 @@ export const Products = () => {
           <div className={styles.cellTitle}>
             <div style={{ display: "flex", alignItems: "center" }}>
               <div className={styles.imagePlaceholder}></div>
-              <div>
+              <div className={styles.textWrapper}>
                 <div className={styles.titleText}>{product.title}</div>
                 <div className={styles.categoryText}>{product.category}</div>
               </div>
             </div>
           </div>
-          <div className={styles.cell}>{product.brand}</div>
+          <div className={styles.cell}>
+            <span className={styles.placeholder}>{product.brand || "-"}</span>
+          </div>
+
           <div className={styles.cell}>{product.id}</div>
-          <div className={styles.cell}>{product.rating}</div>
-          <div className={styles.cell}>{product.price} ₽</div>
+          <div className={styles.cell}>{product.rating.toFixed(1)}/5</div>
+          <div className={styles.cell}>
+            {Math.floor(product.price).toLocaleString("ru-RU")}
+            <span className={styles.cents}>,00 ₽</span>
+          </div>
+
           <div className={styles.cell}>{product.stock}</div>
           <div className={`${styles.cell} ${styles.actions}`}>
             <button className={styles.addButton}>+</button>

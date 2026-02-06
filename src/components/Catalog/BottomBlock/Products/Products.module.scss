@@ -7,7 +7,7 @@
 .row {
   display: flex;
   align-items: center;
-  padding: 4px;
+  padding: 6px;
 }
 
 .header {
@@ -15,11 +15,27 @@
   color: #ccc;
 }
 
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .row {
   border-bottom: 1px solid #ccc;
   &:hover {
     background-color: #f9f9f9;
   }
+}
+
+.cents {
+  color: #999;
+  margin-left: 2px;
+}
+
+.placeholder {
+  font-weight: bold;
 }
 
 .cell {
@@ -40,6 +56,7 @@
   background-color: #ccc;
   margin-right: 8px;
   flex-shrink: 0;
+  border-radius: 8px;
 }
 
 .titleText {

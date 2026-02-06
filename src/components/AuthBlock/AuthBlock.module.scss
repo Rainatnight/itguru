@@ -1,5 +1,5 @@
 .wrap {
-  width: 380px;
+  width: 400px;
   background: rgba(255, 255, 255, 0.96);
   border-radius: 14px;
   padding: 32px;
@@ -7,6 +7,22 @@
     0 20px 40px rgba(0, 0, 0, 0.08),
     0 4px 12px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(6px);
+}
+
+.icon {
+  background-color: #e5e5e5;
+  border: 2px solid white;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+
+  & > svg {
+    display: block;
+  }
 }
 
 .title {
@@ -26,6 +42,16 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+  width: 100%;
+  align-items: center;
+}
+
+.inputWrap {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+  width: 100%;
 }
 
 .input {
@@ -43,11 +69,7 @@
 }
 
 .checkbox {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: #444;
+  align-self: flex-start;
 }
 
 .button {
@@ -59,7 +81,7 @@
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
-
+  width: 100%;
   &:disabled {
     opacity: 0.7;
     cursor: default;
@@ -70,6 +92,7 @@
   color: #e53935;
   font-size: 13px;
   text-align: center;
+  align-self: flex-start;
 }
 
 .divider {

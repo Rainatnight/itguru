@@ -1,89 +1,97 @@
 import { useState } from "react";
-import type { AuthResponse } from "./types";
-import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import cls from "./AuthBlock.module.scss";
+import { login } from "../../api/authAPi";
+import { useToastError } from "../../hooks/useToastError";
+import { useAuthSuccess } from "../../hooks/useAuthSuccess";
+import { BsSoundwave } from "react-icons/bs";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import { validate } from "./helpers/validate";
 
 export const AuthBlock = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {},
+  );
 
-  const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleRememberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRemember(event.target.checked);
+  };
+
+  const handleError = useToastError();
+  const handleSuccess = useAuthSuccess(remember);
+
+  const mutation = useMutation({
+    mutationFn: login,
+    onSuccess: handleSuccess,
+    onError: handleError,
+  });
+
+  const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
-    setLoading(true);
 
-    try {
-      const res = await fetch("https://dummyjson.com/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: email,
-          password,
-        }),
-      });
+    const validationErrors = validate(email, password);
+    setErrors(validationErrors);
 
-      if (!res.ok) {
-        throw new Error("Неверная почта или пароль");
-      }
-
-      const data: AuthResponse = await res.json();
-      console.log("USER:", data);
-
-      if (remember) {
-        localStorage.setItem("token", data.token);
-      } else {
-        sessionStorage.setItem("token", data.token);
-      }
-
-      navigate("/catalog", { replace: true });
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Неизвестная ошибка");
-      }
+    if (Object.keys(validationErrors).length === 0) {
+      mutation.mutate({ username: email, password });
     }
   };
 
   return (
     <div className={cls.wrap}>
+      <div className={cls.icon}>
+        <BsSoundwave size={30} />
+      </div>
       <h1 className={cls.title}>Добро пожаловать!</h1>
-      <p className={cls.subtitle}>Пожалуйста, авторизуйтесь</p>
+      <p className={cls.subtitle}>Пожалуйста, авторизируйтесь</p>
 
       <form className={cls.form} onSubmit={onSubmit}>
-        <input
-          className={cls.input}
-          type="text"
-          placeholder="Почта"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          className={cls.input}
-          type="password"
-          placeholder="Пароль"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <label className={cls.checkbox}>
+        <div className={cls.inputWrap}>
+          {errors.email && <div className={cls.error}>{errors.email}</div>}
           <input
-            type="checkbox"
-            checked={remember}
-            onChange={(e) => setRemember(e.target.checked)}
+            className={cls.input}
+            type="text"
+            placeholder="Имя"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          Запомнить данные
-        </label>
+        </div>
 
-        {error && <div className={cls.error}>{error}</div>}
+        <div className={cls.inputWrap}>
+          {errors.password && (
+            <div className={cls.error}>{errors.password}</div>
+          )}
+          <input
+            className={cls.input}
+            type="password"
+            placeholder="Пароль"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className={cls.checkbox}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={remember}
+                size="small"
+                onChange={handleRememberChange}
+                sx={{
+                  color: "#e5e5e5",
+                  "&.Mui-checked": { color: "blue" },
+                }}
+              />
+            }
+            label="Запомнить данные"
+          />
+        </div>
 
-        <button className={cls.button} disabled={loading}>
-          {loading ? "Вход..." : "Войти"}
+        <button className={cls.button} disabled={mutation.status === "pending"}>
+          {mutation.status === "pending" ? "Вход..." : "Войти"}
         </button>
       </form>
 

@@ -1,20 +1,27 @@
+import { MdFilterList } from "react-icons/md";
 import cls from "./BottomBlock.module.scss";
-import { FiSettings, FiUser } from "react-icons/fi";
+import { AiOutlineSync } from "react-icons/ai";
+import { Products } from "./Products/Products";
 
 export const BottomBlock = () => {
   return (
     <div className={cls.block}>
       <div className={cls.topRow}>
-        <span>Все позиции</span>
+        <h2 className={cls.title}>Все позиции</h2>
+
         <div className={cls.actions}>
-          <FiSettings size={20} />
-          <FiUser size={20} />
+          <div className={cls.iconWrap}>
+            <AiOutlineSync size={20} />
+          </div>
+          <div className={cls.iconWrap}>
+            <MdFilterList size={20} />
+          </div>
+
           <button className={cls.addButton}>Добавить</button>
         </div>
       </div>
 
-      {/* Здесь будут позиции каталога */}
-      <div className={cls.items}>{/* Пока пусто */}</div>
+      <Products />
     </div>
   );
 };

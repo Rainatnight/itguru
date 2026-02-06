@@ -1,5 +1,6 @@
 import { useState } from "react";
 import cls from "./AuthBlock.module.scss";
+import type { AuthResponse } from "./types";
 
 export const AuthBlock = () => {
   const [email, setEmail] = useState("");
@@ -8,7 +9,7 @@ export const AuthBlock = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -27,16 +28,18 @@ export const AuthBlock = () => {
         throw new Error("Неверная почта или пароль");
       }
 
-      const data = await res.json();
+      const data: AuthResponse = await res.json();
       console.log("USER:", data);
 
       if (remember) {
         localStorage.setItem("token", data.token);
       }
-    } catch (e: any) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Неизвестная ошибка");
+      }
     }
   };
 
@@ -68,7 +71,7 @@ export const AuthBlock = () => {
             checked={remember}
             onChange={(e) => setRemember(e.target.checked)}
           />
-          Запомнить меня
+          Запомнить данные
         </label>
 
         {error && <div className={cls.error}>{error}</div>}

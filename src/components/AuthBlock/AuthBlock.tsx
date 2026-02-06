@@ -1,6 +1,7 @@
 import { useState } from "react";
-import cls from "./AuthBlock.module.scss";
 import type { AuthResponse } from "./types";
+import { useNavigate } from "react-router-dom";
+import cls from "./AuthBlock.module.scss";
 
 export const AuthBlock = () => {
   const [email, setEmail] = useState("");
@@ -8,6 +9,7 @@ export const AuthBlock = () => {
   const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,7 +35,11 @@ export const AuthBlock = () => {
 
       if (remember) {
         localStorage.setItem("token", data.token);
+      } else {
+        sessionStorage.setItem("token", data.token);
       }
+
+      navigate("/catalog", { replace: true });
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);

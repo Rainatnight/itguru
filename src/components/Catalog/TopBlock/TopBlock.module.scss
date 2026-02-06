@@ -1,0 +1,50 @@
+.block {
+  width: 100%;
+  max-width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  box-sizing: border-box;
+  border: 1px solid red;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.input {
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #ffffff;
+  color: #222;
+  font-size: 14px;
+
+  &::placeholder {
+    color: #999;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #2f80ed;
+    box-shadow: 0 0 0 2px rgba(47, 128, 237, 0.15);
+  }
+}
+
+.divider {
+  height: 1px;
+  background: #ddd;
+  width: 100%;
+  margin: 8px 0;
+}
+
+.icons {
+  display: flex;
+  gap: 16px;
+  color: #555;
+}

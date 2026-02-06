@@ -1,0 +1,61 @@
+.inputWrap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: white;
+}
+
+.labelErrorRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.label {
+  font-size: 14px;
+  color: black;
+}
+
+.inputInner {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  position: absolute;
+  left: 10px;
+  font-size: 20px;
+  color: #e4dede;
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  box-sizing: border-box;
+
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #e4dede;
+  border-radius: 4px;
+  font-size: 16px;
+  &:focus {
+    outline: none;
+    border: 1px solid #ccc;
+  }
+}
+
+.rightIcon {
+  position: absolute;
+  right: 12px;
+  color: gray;
+  cursor: pointer;
+}
+.error {
+  color: red;
+  font-size: 12px;
+  min-height: 16px;
+  margin-bottom: 4px;
+  align-self: flex-start;
+}

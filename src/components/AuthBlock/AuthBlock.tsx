@@ -8,11 +8,11 @@ import { BsSoundwave } from "react-icons/bs";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { validate } from "./helpers/validate";
-import { InputText } from "../InputText/InputText";
-import { InputPassword } from "../InputPassword/InputPassword";
+
+import { InputField } from "../InputField/InputField";
 
 export const AuthBlock = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
@@ -35,11 +35,11 @@ export const AuthBlock = () => {
   const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const validationErrors = validate(email, password);
+    const validationErrors = validate(username, password);
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      mutation.mutate({ username: email, password });
+      mutation.mutate({ username, password });
     }
   };
 
@@ -52,9 +52,26 @@ export const AuthBlock = () => {
       <p className={cls.subtitle}>Пожалуйста, авторизируйтесь</p>
 
       <form className={cls.form} onSubmit={onSubmit}>
-        <InputText errors={errors} text={email} setText={setEmail} />
+        <InputField
+          errors={errors}
+          setErrors={setErrors}
+          name="username"
+          value={username}
+          setValue={setUsername}
+          placeholder="Имя"
+          type="text"
+        />
 
-        <InputPassword errors={errors} text={password} setText={setPassword} />
+        <InputField
+          setErrors={setErrors}
+          errors={errors}
+          name="password"
+          value={password}
+          setValue={setPassword}
+          placeholder="Пароль"
+          type="password"
+        />
+
         <div className={cls.checkbox}>
           <FormControlLabel
             control={

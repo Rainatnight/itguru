@@ -8,6 +8,8 @@ import { BsSoundwave } from "react-icons/bs";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { validate } from "./helpers/validate";
+import { InputText } from "../InputText/InputText";
+import { InputPassword } from "../InputPassword/InputPassword";
 
 export const AuthBlock = () => {
   const [email, setEmail] = useState("");
@@ -50,29 +52,9 @@ export const AuthBlock = () => {
       <p className={cls.subtitle}>Пожалуйста, авторизируйтесь</p>
 
       <form className={cls.form} onSubmit={onSubmit}>
-        <div className={cls.inputWrap}>
-          {errors.email && <div className={cls.error}>{errors.email}</div>}
-          <input
-            className={cls.input}
-            type="text"
-            placeholder="Имя"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+        <InputText errors={errors} text={email} setText={setEmail} />
 
-        <div className={cls.inputWrap}>
-          {errors.password && (
-            <div className={cls.error}>{errors.password}</div>
-          )}
-          <input
-            className={cls.input}
-            type="password"
-            placeholder="Пароль"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+        <InputPassword errors={errors} text={password} setText={setPassword} />
         <div className={cls.checkbox}>
           <FormControlLabel
             control={

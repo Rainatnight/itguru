@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./Products.module.scss";
+import { PiDotsThreeCircle } from "react-icons/pi";
+import { Pagination } from "../../../Pagination/Pagination";
 
 type Product = {
   id: number;
@@ -14,21 +16,33 @@ type Product = {
 export const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const itemsPerPage = 10;
 
-  useEffect(() => {
-    fetch("https://dummyjson.com/products?limit=10")
+  const fetchProducts = (page: number) => {
+    setLoading(true);
+    const skip = (page - 1) * itemsPerPage;
+    fetch(`https://dummyjson.com/products?limit=${itemsPerPage}&skip=${skip}`)
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.products);
+        setTotalProducts(data.total); // total — общее количество товаров на сервере
         setLoading(false);
       })
       .catch((err) => {
         console.error("Ошибка при загрузке товаров:", err);
         setLoading(false);
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    fetchProducts(currentPage);
+  }, [currentPage]);
 
   if (loading) return <div>Загрузка товаров...</div>;
+
+  const totalPages = Math.ceil(totalProducts / itemsPerPage);
 
   return (
     <div className={styles.container}>
@@ -59,11 +73,17 @@ export const Products = () => {
           <div className={styles.cell}>{product.price} ₽</div>
           <div className={styles.cell}>{product.stock}</div>
           <div className={`${styles.cell} ${styles.actions}`}>
-            <button>Редактировать</button>
-            <button>Удалить</button>
+            <button className={styles.addButton}>+</button>
+            <PiDotsThreeCircle size={30} />
           </div>
         </div>
       ))}
+
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };

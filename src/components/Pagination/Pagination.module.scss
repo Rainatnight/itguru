@@ -1,0 +1,40 @@
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  margin: 32px 0;
+}
+
+.pageButton {
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  background: none;
+  color: #ccc;
+}
+
+.arrowButton {
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: none;
+  color: #ccc;
+}
+
+.activePage {
+  background: #765eff;
+  color: white;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

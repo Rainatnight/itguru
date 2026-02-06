@@ -1,14 +1,13 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .header,
 .row {
   display: flex;
   align-items: center;
-  padding: 8px;
+  padding: 4px;
 }
 
 .header {
@@ -52,6 +51,31 @@
   color: #777;
 }
 
-.actions button {
+.actions * {
   margin-right: 4px;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.addButton {
+  width: 24px;
+  height: 24px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+
+  &:hover {
+    background-color: #0056b3;
+  }
 }

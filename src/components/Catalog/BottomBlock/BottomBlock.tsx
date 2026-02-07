@@ -6,11 +6,20 @@ import { Modal } from "../../Modal/Modal";
 import { AddProductForm } from "../AddProductForm/AddProductForm";
 import cls from "./BottomBlock.module.scss";
 import { addToast } from "../../../store/slices/toastSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "../../../store/thunks/productsThunks";
+import {
+  setCurrentPage,
+  setSortOrder,
+} from "../../../store/slices/productsSlice";
+import type { AppDispatch, RootState } from "../../../store";
 
 export const BottomBlock = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch();
+  const [sortMenu, setSortMenu] = useState(false);
+  const sortOrder = useSelector((state: RootState) => state.products.sortOrder);
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const close = () => setIsOpen(false);
 
@@ -25,6 +34,23 @@ export const BottomBlock = () => {
     );
   };
 
+  const applySort = (order: "asc" | "desc" | null, e: React.MouseEvent) => {
+    e.stopPropagation();
+    dispatch(setSortOrder(order));
+    setSortMenu(false);
+    dispatch(setCurrentPage(1));
+    dispatch(fetchProducts());
+  };
+
+  const toggleSortMenu = () => setSortMenu((prev) => !prev);
+
+  const refresh = () => {
+    setSortMenu(false);
+    setSortOrder(null);
+    dispatch(setCurrentPage(1));
+    dispatch(fetchProducts());
+  };
+
   return (
     <div className={cls.block}>
       <div className={cls.topRow}>
@@ -32,10 +58,32 @@ export const BottomBlock = () => {
 
         <div className={cls.actions}>
           <div className={cls.iconWrap}>
-            <AiOutlineSync size={20} />
+            <AiOutlineSync size={20} onClick={refresh} />
           </div>
-          <div className={cls.iconWrap}>
-            <MdFilterList size={20} />
+          <div className={cls.iconWrap} onClick={toggleSortMenu}>
+            <MdFilterList size={20} color={sortOrder ? "blue" : "grey"} />
+            {sortMenu && (
+              <div className={cls.sortMenu}>
+                <div
+                  onClick={(e) => applySort("asc", e)}
+                  className={sortOrder === "asc" ? cls.activeOption : ""}
+                >
+                  Цена ↑
+                </div>
+                <div
+                  onClick={(e) => applySort("desc", e)}
+                  className={sortOrder === "desc" ? cls.activeOption : ""}
+                >
+                  Цена ↓
+                </div>
+                <div
+                  onClick={(e) => applySort(null, e)}
+                  className={sortOrder === null ? cls.activeOption : ""}
+                >
+                  Сброс
+                </div>
+              </div>
+            )}
           </div>
 
           <button className={cls.addButton} onClick={() => setIsOpen(true)}>

@@ -26,9 +26,7 @@ export const Products = () => {
   const totalPages = Math.ceil(totalProducts / itemsPerPage);
 
   useEffect(() => {
-    dispatch(fetchProducts({ page: currentPage }))
-      .unwrap()
-      .catch(console.error);
+    dispatch(fetchProducts()).unwrap().catch(console.error);
   }, [currentPage, dispatch]);
 
   if (loading) return <div>Загрузка товаров...</div>;

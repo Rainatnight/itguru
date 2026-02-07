@@ -32,6 +32,7 @@
   }
 }
 .iconWrap {
+  position: relative;
   border: 1px solid #ddd;
   display: flex;
   align-items: center;
@@ -41,4 +42,25 @@
   & > svg {
     cursor: pointer;
   }
+}
+
+.sortMenu {
+  position: absolute;
+  top: 120%;
+  right: -150%;
+  width: 80px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  div {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+}
+
+.activeOption {
+  background-color: #007bff;
+  color: #fff;
 }

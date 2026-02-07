@@ -4,7 +4,7 @@ import { FiBell, FiMail, FiSliders } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "../../../store/thunks/productsThunks";
 import type { AppDispatch } from "../../../store";
-import { setCurrentPage } from "../../../store/slices/productsSlice";
+import { setCurrentPage, setSearch } from "../../../store/slices/productsSlice";
 import cls from "./TopBlock.module.scss";
 
 export const TopBlock = () => {
@@ -16,7 +16,8 @@ export const TopBlock = () => {
   useEffect(() => {
     const handler = setTimeout(() => {
       dispatch(setCurrentPage(1));
-      dispatch(fetchProducts({ page: 1, search: inputValue }));
+      dispatch(setSearch(inputValue));
+      dispatch(fetchProducts());
     }, debounceTime);
 
     return () => {

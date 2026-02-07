@@ -16,6 +16,8 @@ interface ProductsState {
   loading: boolean;
   total: number;
   currentPage: number;
+  sortOrder: "asc" | "desc" | null;
+  search: string;
 }
 
 const initialState: ProductsState = {
@@ -23,6 +25,8 @@ const initialState: ProductsState = {
   loading: false,
   total: 0,
   currentPage: 1,
+  sortOrder: null,
+  search: "",
 };
 
 const productsSlice = createSlice({
@@ -32,15 +36,16 @@ const productsSlice = createSlice({
     setProducts: (state, action: PayloadAction<Product[]>) => {
       state.items = action.payload;
     },
-    addProduct: (state, action: PayloadAction<Product>) => {
-      state.items.push(action.payload);
-    },
-    removeProduct: (state, action: PayloadAction<number | string>) => {
-      state.items = state.items.filter((p) => p.id !== action.payload);
-    },
 
+    setSortOrder(state, action: PayloadAction<"asc" | "desc" | null>) {
+      state.sortOrder = action.payload;
+    },
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
+    },
+
+    setSearch(state, action: PayloadAction<string>) {
+      state.search = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -49,7 +54,6 @@ const productsSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        console.log(action.payload.products);
         state.items = action.payload.products;
         state.total = action.payload.total;
         state.loading = false;
@@ -60,6 +64,6 @@ const productsSlice = createSlice({
   },
 });
 
-export const { addProduct, removeProduct, setProducts, setCurrentPage } =
+export const { setProducts, setCurrentPage, setSortOrder, setSearch } =
   productsSlice.actions;
 export const productsReducer = productsSlice.reducer;

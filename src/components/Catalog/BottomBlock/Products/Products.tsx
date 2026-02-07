@@ -1,86 +1,78 @@
-import { useEffect, useState } from "react";
-import styles from "./Products.module.scss";
+import { useEffect } from "react";
 import { PiDotsThreeCircle } from "react-icons/pi";
 import { Pagination } from "../../../Pagination/Pagination";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../../../store";
 
-type Product = {
-  id: number;
-  title: string;
-  brand: string;
-  price: number;
-  rating: number;
-  stock: number;
-  category: string;
-};
+import { fetchProducts } from "../../../../store/thunks/productsThunks";
+import { setCurrentPage } from "../../../../store/slices/productsSlice";
+import cls from "./Products.module.scss";
+
+const itemsPerPage = 10;
 
 export const Products = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalProducts, setTotalProducts] = useState(0);
-  const itemsPerPage = 10;
+  const dispatch = useDispatch<AppDispatch>();
+  const {
+    items: products,
+    total: totalProducts,
+    loading,
+    currentPage,
+  } = useSelector((state: RootState) => state.products);
 
-  const fetchProducts = (page: number) => {
-    setLoading(true);
-    const skip = (page - 1) * itemsPerPage;
-    fetch(`https://dummyjson.com/products?limit=${itemsPerPage}&skip=${skip}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data.products);
-        setTotalProducts(data.total);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Ошибка при загрузке товаров:", err);
-        setLoading(false);
-      });
+  const handlePageChange = (page: number) => {
+    dispatch(setCurrentPage(page));
   };
-
-  useEffect(() => {
-    fetchProducts(currentPage);
-  }, [currentPage]);
-
-  if (loading) return <div>Загрузка товаров...</div>;
 
   const totalPages = Math.ceil(totalProducts / itemsPerPage);
 
+  useEffect(() => {
+    dispatch(fetchProducts({ page: currentPage }))
+      .unwrap()
+      .catch(console.error);
+  }, [currentPage, dispatch]);
+
+  if (loading) return <div>Загрузка товаров...</div>;
+
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.cellTitle}>Наименование</div>
-        <div className={styles.cell}>Вендор</div>
-        <div className={styles.cell}>Артикул</div>
-        <div className={styles.cell}>Оценка</div>
-        <div className={styles.cell}>Цена, ₽</div>
-        <div className={styles.cell}>Количество</div>
-        <div className={`${styles.cell} ${styles.actions}`}>Действия</div>
+    <div className={cls.container}>
+      <div className={cls.header}>
+        <div className={cls.cellTitle}>Наименование</div>
+        <div className={cls.cell}>Вендор</div>
+        <div className={cls.cell}>Артикул</div>
+        <div className={cls.cell}>Оценка</div>
+        <div className={cls.cell}>Цена, ₽</div>
+        <div className={cls.cell}>Количество</div>
+        <div className={`${cls.cell} ${cls.actions}`}>Действия</div>
       </div>
 
       {products.map((product) => (
-        <div key={product.id} className={styles.row}>
-          <div className={styles.cellTitle}>
+        <div key={product.id} className={cls.row}>
+          <div className={cls.cellTitle}>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <div className={styles.imagePlaceholder}></div>
-              <div className={styles.textWrapper}>
-                <div className={styles.titleText}>{product.title}</div>
-                <div className={styles.categoryText}>{product.category}</div>
+              <div className={cls.imagePlaceholder}></div>
+              <div className={cls.textWrapper}>
+                <div className={cls.titleText}>{product.title}</div>
+                <div className={cls.categoryText}>{product.category}</div>
               </div>
             </div>
           </div>
-          <div className={styles.cell}>
-            <span className={styles.placeholder}>{product.brand || "-"}</span>
+          <div className={cls.cell}>
+            <span className={cls.placeholder}>{product.brand || "-"}</span>
           </div>
-
-          <div className={styles.cell}>{product.id}</div>
-          <div className={styles.cell}>{product.rating.toFixed(1)}/5</div>
-          <div className={styles.cell}>
+          <div className={cls.cell}>{product.id}</div>
+          <div className={cls.cell}>
+            <span style={{ color: product.rating < 3 ? "red" : "inherit" }}>
+              {Math.floor(product.rating)}
+            </span>
+            <span>/5</span>
+          </div>
+          <div className={cls.cell}>
             {Math.floor(product.price).toLocaleString("ru-RU")}
-            <span className={styles.cents}>,00 ₽</span>
+            <span className={cls.cents}>,00 ₽</span>
           </div>
-
-          <div className={styles.cell}>{product.stock}</div>
-          <div className={`${styles.cell} ${styles.actions}`}>
-            <button className={styles.addButton}>+</button>
+          <div className={cls.cell}>{product.stock}</div>
+          <div className={`${cls.cell} ${cls.actions}`}>
+            <button className={cls.addButton}>+</button>
             <PiDotsThreeCircle size={30} />
           </div>
         </div>
@@ -89,7 +81,7 @@ export const Products = () => {
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
+        setCurrentPage={handlePageChange}
       />
     </div>
   );

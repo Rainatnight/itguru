@@ -5,11 +5,25 @@ import { useState } from "react";
 import { Modal } from "../../Modal/Modal";
 import { AddProductForm } from "../AddProductForm/AddProductForm";
 import cls from "./BottomBlock.module.scss";
+import { addToast } from "../../../store/slices/toastSlice";
+import { useDispatch } from "react-redux";
 
 export const BottomBlock = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const close = () => setIsOpen(false);
+
+  const onSuccess = () => {
+    setIsOpen(false);
+    dispatch(
+      addToast({
+        message: "Успешно",
+        type: "success",
+        duration: 4000,
+      }),
+    );
+  };
 
   return (
     <div className={cls.block}>
@@ -32,7 +46,7 @@ export const BottomBlock = () => {
 
       {isOpen && (
         <Modal onClose={close}>
-          <AddProductForm onSuccess={() => setIsOpen(false)} />
+          <AddProductForm onSuccess={onSuccess} />
         </Modal>
       )}
 

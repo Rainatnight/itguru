@@ -1,16 +1,44 @@
+import { useState, useEffect, useCallback } from "react";
 import { FaGlobe } from "react-icons/fa";
-import cls from "./TopBlock.module.scss";
 import { FiBell, FiMail, FiSliders } from "react-icons/fi";
+import { useDispatch } from "react-redux";
+import { fetchProducts } from "../../../store/thunks/productsThunks";
+import type { AppDispatch } from "../../../store";
+import { setCurrentPage } from "../../../store/slices/productsSlice";
+import cls from "./TopBlock.module.scss";
 
 export const TopBlock = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const [inputValue, setInputValue] = useState("");
+  const debounceTime = 500;
+
+  // Дебаунс
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      dispatch(setCurrentPage(1));
+      dispatch(fetchProducts({ page: 1, search: inputValue }));
+    }, debounceTime);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [inputValue, dispatch]);
+
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  }, []);
+
   return (
     <div className={cls.block}>
       <h2 className={cls.title}>Товары</h2>
+
       <div className={cls.inputWrap}>
         <input
           className={cls.input}
           type="text"
           placeholder="Поиск товаров..."
+          value={inputValue}
+          onChange={handleChange}
         />
       </div>
 

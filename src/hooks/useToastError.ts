@@ -3,6 +3,7 @@ import { addToast } from "../store/slices/toastSlice";
 
 export const useToastError = () => {
   const dispatch = useDispatch();
+
   return (error: unknown) => {
     if (error instanceof Error) {
       dispatch(

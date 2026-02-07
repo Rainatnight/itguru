@@ -21,12 +21,9 @@ export const TopBlock = () => {
     const handler = setTimeout(() => {
       dispatch(setCurrentPage(1));
       dispatch(setSearch(inputValue));
-      dispatch(fetchProducts());
     }, debounceTime);
 
-    return () => {
-      clearTimeout(handler);
-    };
+    return () => clearTimeout(handler);
   }, [inputValue, dispatch]);
 
   return (

@@ -20,6 +20,8 @@ export const Products = () => {
     total: totalProducts,
     loading,
     currentPage,
+    search,
+    sortOrder,
   } = useSelector((state: RootState) => state.products);
 
   const handlePageChange = useCallback(
@@ -42,7 +44,7 @@ export const Products = () => {
 
   useEffect(() => {
     dispatch(fetchProducts()).unwrap().catch(console.error);
-  }, [currentPage, dispatch]);
+  }, [currentPage, dispatch, search, sortOrder]);
 
   return (
     <div className={cls.container}>

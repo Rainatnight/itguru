@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { FaGlobe } from "react-icons/fa";
 import { FiBell, FiMail, FiSliders } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-import { fetchProducts } from "../../../store/thunks/productsThunks";
 import type { AppDispatch } from "../../../store";
 import { setCurrentPage, setSearch } from "../../../store/slices/productsSlice";
 import cls from "./TopBlock.module.scss";

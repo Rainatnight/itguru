@@ -50,8 +50,8 @@
 }
 
 .divider {
-  width: 1px;
-  background: #ddd;
+  width: 2px;
+  background: var(--color-secondary);
   height: 40px;
   flex-shrink: 0;
 }

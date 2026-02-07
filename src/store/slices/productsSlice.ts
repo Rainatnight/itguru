@@ -9,6 +9,7 @@ export interface Product {
   rating: number;
   price: number;
   stock: number;
+  sku: string;
 }
 
 interface ProductsState {

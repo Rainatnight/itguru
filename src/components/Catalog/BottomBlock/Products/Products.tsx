@@ -56,17 +56,20 @@ export const Products = () => {
                 <div className={cls.imagePlaceholder}></div>
                 <div className={cls.textWrapper}>
                   <div className={cls.titleText}>{product.title}</div>
-                  <div className={cls.categoryText}>{product.category}</div>
+                  <div className={cls.categoryText}>
+                    {product.category.charAt(0).toUpperCase() +
+                      product.category.slice(1)}
+                  </div>
                 </div>
               </div>
             </div>
             <div className={cls.cell}>
               <span className={cls.placeholder}>{product.brand || "-"}</span>
             </div>
-            <div className={cls.cell}>{product.id}</div>
+            <div className={cls.cell}>{product.sku}</div>
             <div className={cls.cell}>
               <span style={{ color: product.rating < 3 ? "red" : "inherit" }}>
-                {Math.floor(product.rating)}
+                {product.rating.toFixed(1)}
               </span>
               <span>/5</span>
             </div>

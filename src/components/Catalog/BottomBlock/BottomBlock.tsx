@@ -4,7 +4,6 @@ import { Products } from "./Products/Products";
 import { useState } from "react";
 import { Modal } from "../../Modal/Modal";
 import { AddProductForm } from "../AddProductForm/AddProductForm";
-import cls from "./BottomBlock.module.scss";
 import { addToast } from "../../../store/slices/toastSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../../store/thunks/productsThunks";
@@ -13,6 +12,7 @@ import {
   setSortOrder,
 } from "../../../store/slices/productsSlice";
 import type { AppDispatch, RootState } from "../../../store";
+import cls from "./BottomBlock.module.scss";
 
 export const BottomBlock = () => {
   const [isOpen, setIsOpen] = useState(false);

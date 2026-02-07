@@ -12,6 +12,10 @@ export const TopBlock = () => {
   const [inputValue, setInputValue] = useState("");
   const debounceTime = 500;
 
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  }, []);
+
   // Дебаунс
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -24,10 +28,6 @@ export const TopBlock = () => {
       clearTimeout(handler);
     };
   }, [inputValue, dispatch]);
-
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  }, []);
 
   return (
     <div className={cls.block}>

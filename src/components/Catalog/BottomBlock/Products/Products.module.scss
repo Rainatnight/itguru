@@ -12,7 +12,7 @@
 
 .header {
   font-weight: bold;
-  color: #ccc;
+  color: var(--color-secondary);
 }
 
 .textWrapper {
@@ -24,14 +24,14 @@
 
 .row {
   height: 60px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--text-light-grey);
   &:hover {
     background-color: #f9f9f9;
   }
 }
 
 .cents {
-  color: #999;
+  color: var(--text-light-grey);
   margin-left: 2px;
 }
 
@@ -54,7 +54,7 @@
 .imagePlaceholder {
   width: 50px;
   height: 50px;
-  background-color: #ccc;
+  background-color: var(--text-light-grey);
   margin-right: 8px;
   flex-shrink: 0;
   border-radius: 8px;
@@ -66,7 +66,7 @@
 
 .categoryText {
   font-size: 12px;
-  color: #777;
+  color: var(--text-light-grey);
 }
 
 .actions * {
@@ -82,7 +82,7 @@
 .addButton {
   width: 24px;
   height: 24px;
-  background-color: #007bff;
+  background-color: var(--color-blue);
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -92,10 +92,6 @@
   align-items: center;
   justify-content: center;
   transition: background 0.2s;
-
-  &:hover {
-    background-color: #0056b3;
-  }
 }
 
 .notFound {
@@ -105,7 +101,7 @@
 
 .skeletonRow {
   height: 50px;
-  background-color: #e0e0e0;
+  background-color: var(--color-secondary);
   border-radius: 8px;
   margin-bottom: 10px;
   animation: pulse 1.5s infinite ease-in-out;

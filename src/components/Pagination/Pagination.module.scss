@@ -13,9 +13,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #ccc;
+  border: 1px solid var(--text-light-grey);
   background: none;
-  color: #ccc;
+  color: var(--text-light-grey);
 }
 
 .arrowButton {
@@ -26,7 +26,7 @@
   justify-content: center;
 
   background: none;
-  color: #ccc;
+  color: var(--text-light-grey);
 }
 
 .activePage {

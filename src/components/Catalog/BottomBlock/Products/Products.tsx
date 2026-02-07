@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { PiDotsThreeCircle } from "react-icons/pi";
 import { Pagination } from "../../../Pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,10 +7,13 @@ import type { AppDispatch, RootState } from "../../../../store";
 import { fetchProducts } from "../../../../store/thunks/productsThunks";
 import { setCurrentPage } from "../../../../store/slices/productsSlice";
 import cls from "./Products.module.scss";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 const itemsPerPage = 5;
 
 export const Products = () => {
+  const [chosenElements, setChosenElements] = useState<string[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const {
     items: products,
@@ -47,11 +50,42 @@ export const Products = () => {
 
         {loading ? (
           skeletons.map((_, index) => (
-            <div key={index} className={`${cls.row} ${cls.skeletonRow}`}></div>
+            <div key={index} className={`${cls.row} ${cls.skeletonRow} `}></div>
           ))
         ) : products.length ? (
           products.map((product) => (
-            <div key={product.id} className={cls.row}>
+            <div
+              key={product.id}
+              className={`${cls.row} ${
+                chosenElements.includes(String(product.id)) ? cls.selected : ""
+              }`}
+            >
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={chosenElements.includes(String(product.id))}
+                    size="small"
+                    onChange={() => {
+                      setChosenElements((prev) => {
+                        const idStr = String(product.id);
+                        if (prev.includes(idStr)) {
+                          // если уже есть — удаляем
+                          return prev.filter((el) => el !== idStr);
+                        } else {
+                          // если нет — добавляем
+                          return [...prev, idStr];
+                        }
+                      });
+                    }}
+                    sx={{
+                      color: "#999",
+                      "&.Mui-checked": { color: "blue" },
+                    }}
+                  />
+                }
+                label=""
+              />
+
               <div className={cls.cellTitle}>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <div className={cls.imagePlaceholder}></div>

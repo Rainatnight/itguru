@@ -8,8 +8,8 @@ export const useAuthSuccess = (remember: boolean) => {
   const dispatch = useDispatch();
 
   return (data: AuthResponse) => {
-    if (remember) localStorage.setItem("token", data.token);
-    else sessionStorage.setItem("token", data.token);
+    if (remember) localStorage.setItem("token", data.accessToken);
+    else sessionStorage.setItem("token", data.accessToken);
 
     dispatch(
       addToast({

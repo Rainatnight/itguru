@@ -1,10 +1,8 @@
-@import "../../styles/colors.scss";
-
 .wrap {
   width: 400px;
-  background: rgba(243, 239, 239, 0.96);
+  background: var(--color-secondary);
   border-radius: 32px;
-  border-top: 4px solid $main;
+  border-top: 4px solid var(--color-main);
   border-left: 4px solid #ffffff;
   border-right: 4px solid #ffffff;
   padding: 32px;
@@ -44,7 +42,7 @@
 
 .subtitle {
   margin: 8px 0 24px;
-  color: $secondary;
+  color: var(--text-light-grey);
   text-align: center;
 }
 
@@ -62,7 +60,7 @@
 
 .button {
   height: 44px;
-  background: #2f80ed;
+  background: var(--color-blue);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -82,7 +80,7 @@
   gap: 12px;
   margin: 24px 0;
   font-size: 14px;
-  color: $secondary;
+  color: var(--text-light-grey);
 
   &::before,
   &::after {
@@ -96,7 +94,7 @@
 .footer {
   text-align: center;
   font-size: 14px;
-  color: $secondary;
+  color: var(--text-light-grey);
 
   span {
     color: #2f80ed;

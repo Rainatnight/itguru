@@ -97,7 +97,7 @@ export const AuthBlock = () => {
       <div className={cls.divider}>или</div>
 
       <div className={cls.footer}>
-        Нет аккаунта? <span>Создать</span>
+        Нет аккаунта? <a>Создать</a>
       </div>
     </div>
   );

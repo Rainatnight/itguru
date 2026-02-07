@@ -1,9 +1,16 @@
 import { MdFilterList } from "react-icons/md";
-import cls from "./BottomBlock.module.scss";
 import { AiOutlineSync } from "react-icons/ai";
 import { Products } from "./Products/Products";
+import { useState } from "react";
+import { Modal } from "../../Modal/Modal";
+import { AddProductForm } from "../AddProductForm/AddProductForm";
+import cls from "./BottomBlock.module.scss";
 
 export const BottomBlock = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const close = () => setIsOpen(false);
+
   return (
     <div className={cls.block}>
       <div className={cls.topRow}>
@@ -17,9 +24,17 @@ export const BottomBlock = () => {
             <MdFilterList size={20} />
           </div>
 
-          <button className={cls.addButton}>Добавить</button>
+          <button className={cls.addButton} onClick={() => setIsOpen(true)}>
+            Добавить
+          </button>
         </div>
       </div>
+
+      {isOpen && (
+        <Modal onClose={close}>
+          <AddProductForm onSuccess={() => setIsOpen(false)} />
+        </Modal>
+      )}
 
       <Products />
     </div>

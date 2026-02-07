@@ -1,11 +1,24 @@
 import React, { useState, type JSX } from "react";
 import { MdLockOutline } from "react-icons/md";
-import { FiMail, FiX, FiEye, FiEyeOff } from "react-icons/fi";
 import cls from "./InputField.module.scss";
+import {
+  FiEdit,
+  FiTag,
+  FiTruck,
+  FiHash,
+  FiMail,
+  FiEyeOff,
+  FiX,
+  FiEye,
+} from "react-icons/fi";
 
 export interface IErrors {
   password?: string;
   username?: string;
+  name?: string;
+  price?: string;
+  vendor?: string;
+  article?: string;
 }
 
 interface IProps {
@@ -21,11 +34,19 @@ interface IProps {
 const leftIcons: Record<keyof IErrors, JSX.Element> = {
   username: <FiMail size={24} className={cls.icon} />,
   password: <MdLockOutline size={24} className={cls.icon} />,
+  name: <FiEdit size={24} className={cls.icon} />,
+  price: <FiTag size={24} className={cls.icon} />,
+  vendor: <FiTruck size={24} className={cls.icon} />,
+  article: <FiHash size={24} className={cls.icon} />,
 };
 
 const labels: Record<keyof IErrors, string> = {
   username: "Почта",
   password: "Пароль",
+  name: "Наименование",
+  price: "Цена",
+  vendor: "Вендор",
+  article: "Артикул",
 };
 
 export const InputField = ({
@@ -56,7 +77,7 @@ export const InputField = ({
   const inputType = name === "password" && showPassword ? "text" : type;
 
   const RightIconMemo = React.useMemo(() => {
-    if (name === "username" && value)
+    if (name !== "password" && value)
       return <FiX size={20} className={cls.rightIcon} onClick={clearInput} />;
 
     if (name === "password")

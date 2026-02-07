@@ -3,7 +3,7 @@ import AuthPage from "./pages/auth";
 import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 import CatalogPage from "./pages/catalog";
 import "./App.css";
-import "./styles/colors.scss";
+
 import { ToastContainer } from "./components/Toast/ToastContainer";
 
 function App() {

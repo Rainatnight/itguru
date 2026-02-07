@@ -34,60 +34,65 @@ export const Products = () => {
 
   return (
     <div className={cls.container}>
-      <div className={cls.header}>
-        <div className={cls.cellTitle}>Наименование</div>
-        <div className={cls.cell}>Вендор</div>
-        <div className={cls.cell}>Артикул</div>
-        <div className={cls.cell}>Оценка</div>
-        <div className={cls.cell}>Цена, ₽</div>
-        <div className={cls.cell}>Количество</div>
-        <div className={`${cls.cell} ${cls.actions}`}>Действия</div>
-      </div>
+      <div className={cls.tableWrapper}>
+        <div className={cls.header}>
+          <div className={cls.cellTitle}>Наименование</div>
+          <div className={cls.cell}>Вендор</div>
+          <div className={cls.cell}>Артикул</div>
+          <div className={cls.cell}>Оценка</div>
+          <div className={cls.cell}>Цена, ₽</div>
+          <div className={cls.cell}>Количество</div>
+          <div className={`${cls.cell} ${cls.actions}`}>Действия</div>
+        </div>
 
-      {loading ? (
-        skeletons.map((_, index) => (
-          <div key={index} className={`${cls.row} ${cls.skeletonRow}`}></div>
-        ))
-      ) : products.length ? (
-        products.map((product) => (
-          <div key={product.id} className={cls.row}>
-            <div className={cls.cellTitle}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <div className={cls.imagePlaceholder}></div>
-                <div className={cls.textWrapper}>
-                  <div className={cls.titleText}>{product.title}</div>
-                  <div className={cls.categoryText}>
-                    {product.category.charAt(0).toUpperCase() +
-                      product.category.slice(1)}
+        {loading ? (
+          skeletons.map((_, index) => (
+            <div key={index} className={`${cls.row} ${cls.skeletonRow}`}></div>
+          ))
+        ) : products.length ? (
+          products.map((product) => (
+            <div key={product.id} className={cls.row}>
+              <div className={cls.cellTitle}>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div className={cls.imagePlaceholder}></div>
+                  <div className={cls.textWrapper}>
+                    <div className={cls.titleText} title={product.title}>
+                      {product.title.length > 25
+                        ? product.title.slice(0, 25) + "..."
+                        : product.title}
+                    </div>
+                    <div className={cls.categoryText}>
+                      {product.category.charAt(0).toUpperCase() +
+                        product.category.slice(1)}
+                    </div>
                   </div>
                 </div>
               </div>
+              <div className={cls.cell}>
+                <span className={cls.placeholder}>{product.brand || "-"}</span>
+              </div>
+              <div className={cls.cell}>{product.sku}</div>
+              <div className={cls.cell}>
+                <span style={{ color: product.rating < 3 ? "red" : "inherit" }}>
+                  {product.rating.toFixed(1)}
+                </span>
+                <span>/5</span>
+              </div>
+              <div className={cls.cell}>
+                {Math.floor(product.price).toLocaleString("ru-RU")}
+                <span className={cls.cents}>,00 ₽</span>
+              </div>
+              <div className={cls.cell}>{product.stock}</div>
+              <div className={`${cls.cell} ${cls.actions}`}>
+                <button className={cls.addButton}>+</button>
+                <PiDotsThreeCircle size={30} />
+              </div>
             </div>
-            <div className={cls.cell}>
-              <span className={cls.placeholder}>{product.brand || "-"}</span>
-            </div>
-            <div className={cls.cell}>{product.sku}</div>
-            <div className={cls.cell}>
-              <span style={{ color: product.rating < 3 ? "red" : "inherit" }}>
-                {product.rating.toFixed(1)}
-              </span>
-              <span>/5</span>
-            </div>
-            <div className={cls.cell}>
-              {Math.floor(product.price).toLocaleString("ru-RU")}
-              <span className={cls.cents}>,00 ₽</span>
-            </div>
-            <div className={cls.cell}>{product.stock}</div>
-            <div className={`${cls.cell} ${cls.actions}`}>
-              <button className={cls.addButton}>+</button>
-              <PiDotsThreeCircle size={30} />
-            </div>
-          </div>
-        ))
-      ) : (
-        <div className={cls.notFound}>Не найдено</div>
-      )}
-
+          ))
+        ) : (
+          <div className={cls.notFound}>Не найдено</div>
+        )}
+      </div>
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}

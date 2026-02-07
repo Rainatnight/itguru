@@ -3,22 +3,50 @@
   flex-direction: column;
 }
 
+.tableWrapper {
+  overflow-x: auto;
+}
+
 .header,
 .row {
   display: flex;
   align-items: center;
   padding: 6px;
+  min-width: 1200px;
 }
 
 .header {
   font-weight: bold;
   color: var(--color-secondary);
+  border-bottom: 1px solid var(--text-light-grey);
+}
+
+.cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.cellTitle {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  align-items: flex-start;
+}
+.row .cellTitle {
+  display: flex;
+  align-items: flex-start;
+}
+
+.header .cellTitle {
+  justify-content: flex-start;
 }
 
 .textWrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
 }
 
@@ -39,18 +67,6 @@
   font-weight: bold;
 }
 
-.cell {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.cellTitle {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-}
-
 .imagePlaceholder {
   width: 50px;
   height: 50px;
@@ -58,10 +74,14 @@
   margin-right: 8px;
   flex-shrink: 0;
   border-radius: 8px;
+  margin-top: 0;
 }
 
 .titleText {
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .categoryText {
@@ -69,14 +89,14 @@
   color: var(--text-light-grey);
 }
 
-.actions * {
-  margin-right: 4px;
-  cursor: pointer;
-}
-
 .actions {
   display: flex;
   gap: 8px;
+  align-items: center;
+}
+
+.actions * {
+  cursor: pointer;
 }
 
 .addButton {

@@ -25,7 +25,7 @@ export const login = async ({
   });
 
   if (!res.ok) {
-    throw new Error("Неверная почта или пароль");
+    throw new Error("Неверное имя или пароль");
   }
 
   return res.json();

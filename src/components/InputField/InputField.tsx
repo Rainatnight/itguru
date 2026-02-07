@@ -41,7 +41,7 @@ const leftIcons: Record<keyof IErrors, JSX.Element> = {
 };
 
 const labels: Record<keyof IErrors, string> = {
-  username: "Почта",
+  username: "Имя",
   password: "Пароль",
   name: "Наименование",
   price: "Цена",

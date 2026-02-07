@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { PiDotsThreeCircle } from "react-icons/pi";
 import { Pagination } from "../../../Pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,24 +22,33 @@ export const Products = () => {
     currentPage,
   } = useSelector((state: RootState) => state.products);
 
-  const handlePageChange = (page: number) => {
-    dispatch(setCurrentPage(page));
-  };
+  const handlePageChange = useCallback(
+    (page: number) => dispatch(setCurrentPage(page)),
+    [dispatch],
+  );
 
-  const totalPages = Math.ceil(totalProducts / itemsPerPage);
+  const toggleChosenElement = useCallback((id: string) => {
+    setChosenElements((prev) =>
+      prev.includes(id) ? prev.filter((el) => el !== id) : [...prev, id],
+    );
+  }, []);
+
+  const totalPages = useMemo(
+    () => Math.ceil(totalProducts / itemsPerPage),
+    [totalProducts],
+  );
+
+  const skeletons = useMemo(() => Array.from({ length: itemsPerPage }), []);
 
   useEffect(() => {
     dispatch(fetchProducts()).unwrap().catch(console.error);
   }, [currentPage, dispatch]);
 
-  // массив для скелетонов
-  const skeletons = Array.from({ length: itemsPerPage });
-
   return (
     <div className={cls.container}>
       <div className={cls.tableWrapper}>
         <div className={cls.header}>
-          <div className={cls.cellTitle}>Наименование</div>
+          <div className={`${cls.cell} ${cls.cellTitle}`}>Наименование</div>
           <div className={cls.cell}>Вендор</div>
           <div className={cls.cell}>Артикул</div>
           <div className={cls.cell}>Оценка</div>
@@ -65,18 +74,7 @@ export const Products = () => {
                   <Checkbox
                     checked={chosenElements.includes(String(product.id))}
                     size="small"
-                    onChange={() => {
-                      setChosenElements((prev) => {
-                        const idStr = String(product.id);
-                        if (prev.includes(idStr)) {
-                          // если уже есть — удаляем
-                          return prev.filter((el) => el !== idStr);
-                        } else {
-                          // если нет — добавляем
-                          return [...prev, idStr];
-                        }
-                      });
-                    }}
+                    onChange={() => toggleChosenElement(String(product.id))}
                     sx={{
                       color: "#999",
                       "&.Mui-checked": { color: "blue" },

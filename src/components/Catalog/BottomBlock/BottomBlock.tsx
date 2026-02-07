@@ -1,7 +1,7 @@
 import { MdFilterList } from "react-icons/md";
 import { AiOutlineSync } from "react-icons/ai";
 import { Products } from "./Products/Products";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Modal } from "../../Modal/Modal";
 import { AddProductForm } from "../AddProductForm/AddProductForm";
 import { addToast } from "../../../store/slices/toastSlice";
@@ -21,35 +21,32 @@ export const BottomBlock = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const close = () => setIsOpen(false);
+  const close = useCallback(() => setIsOpen(false), []);
 
-  const onSuccess = () => {
+  const onSuccess = useCallback(() => {
     setIsOpen(false);
-    dispatch(
-      addToast({
-        message: "Успешно",
-        type: "success",
-        duration: 4000,
-      }),
-    );
-  };
+    dispatch(addToast({ message: "Успешно", type: "success", duration: 4000 }));
+  }, [dispatch]);
 
-  const applySort = (order: "asc" | "desc" | null, e: React.MouseEvent) => {
-    e.stopPropagation();
-    dispatch(setSortOrder(order));
+  const applySort = useCallback(
+    (order: "asc" | "desc" | null, e: React.MouseEvent) => {
+      e.stopPropagation();
+      dispatch(setSortOrder(order));
+      setSortMenu(false);
+      dispatch(setCurrentPage(1));
+      dispatch(fetchProducts());
+    },
+    [dispatch],
+  );
+
+  const toggleSortMenu = useCallback(() => setSortMenu((prev) => !prev), []);
+
+  const refresh = useCallback(() => {
     setSortMenu(false);
+    dispatch(setSortOrder(null));
     dispatch(setCurrentPage(1));
     dispatch(fetchProducts());
-  };
-
-  const toggleSortMenu = () => setSortMenu((prev) => !prev);
-
-  const refresh = () => {
-    setSortMenu(false);
-    setSortOrder(null);
-    dispatch(setCurrentPage(1));
-    dispatch(fetchProducts());
-  };
+  }, [dispatch]);
 
   return (
     <div className={cls.block}>

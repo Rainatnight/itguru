@@ -1,6 +1,6 @@
 # React + TypeScript + Vite
 
-В апи почты похоже нет, я взял username
+Авторизация и таблица с товарами 
 
 Рабочий аккаунт: emilys:emilyspass
 

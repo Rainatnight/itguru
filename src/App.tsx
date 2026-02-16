@@ -5,12 +5,14 @@ import CatalogPage from "./pages/catalog";
 import "./App.css";
 
 import { ToastContainer } from "./components/Toast/ToastContainer";
+import VitePage from "./pages/vite";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<AuthPage />} />
+        <Route path="/vite" element={<VitePage />} />
         <Route
           path="/catalog"
           element={

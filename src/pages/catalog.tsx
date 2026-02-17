@@ -1,7 +1,13 @@
-import { CatalogBlock } from "../components/Catalog/Catalog";
+import { lazy, Suspense } from "react";
+
+const CatalogBlock = lazy(() => import("@/components/Catalog/Catalog"));
 
 const CatalogPage = () => {
-  return <CatalogBlock />;
+  return (
+    <Suspense fallback={<div>Загрузка каталога...</div>}>
+      <CatalogBlock />
+    </Suspense>
+  );
 };
 
 export default CatalogPage;
